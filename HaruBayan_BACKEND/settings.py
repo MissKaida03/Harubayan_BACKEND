@@ -145,3 +145,9 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+from supabase import create_client
+
+SUPABASE_URL = "https://lngdoqimxolarajflobo.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuZ2RvcWlteG9sYXJhamZsb2JvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NDQyNDkwNCwiZXhwIjoyMDYwMDAwOTA0fQ.wX3liJEy4u2BXmD8n9yx_QjdCJO68gekl0gR2GBZf9s"  # use service key, not anon key
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
