@@ -67,7 +67,5 @@ urlpatterns = [
     # Custom signup and login URLs
     path('api/auth/signup/', views.signup, name='signup'),
     path('api/auth/login/', views.login_view, name='login'),
-    # Include other authentication-related URLs (e.g., for JWT)
-    path('api/auth/', include('djoser.urls')),
-    path('api/auth/jwt/', include('djoser.urls.jwt')),
+    path('api/', include('accounts.urls')),
 ]
