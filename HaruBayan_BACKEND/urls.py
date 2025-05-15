@@ -68,4 +68,5 @@ urlpatterns = [
     path('api/auth/signup/', views.signup, name='signup'),
     path('api/auth/login/', views.login_view, name='login'),
     path('api/', include('accounts.urls')),
+    path('', include('accounts.urls')),
 ]

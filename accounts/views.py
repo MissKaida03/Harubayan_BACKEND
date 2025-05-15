@@ -10,6 +10,35 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from datetime import timedelta
 from .models import EmailOTP
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from django.contrib import messages
+
+@csrf_exempt
+def contact_view(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            name = data.get('name')
+            email = data.get('email')
+            message = data.get('message')
+
+            subject = f'New Contact Form Submission from {name}'
+            body = f'Name: {name}\nEmail: {email}\n\nMessage:\n{message}'
+
+            send_mail(
+                subject,
+                body,
+                email,
+                ['harubayan.official@gmail.com'],
+            )
+
+            return JsonResponse({'message': 'Your message has been sent!'}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    return JsonResponse({'error': 'Invalid method'}, status=405)
+
 
 # --- Supabase Setup ---
 from supabase import create_client
