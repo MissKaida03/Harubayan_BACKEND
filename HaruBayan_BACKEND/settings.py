@@ -60,6 +60,9 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5501",    # Para sa imong Live Server frontend (html direct open)
 ]
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.3']
+
 # Allow tanan origins (for dev)
 CORS_ALLOW_ALL_ORIGINS = True
 

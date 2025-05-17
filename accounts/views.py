@@ -13,6 +13,90 @@ from .models import EmailOTP
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib import messages
+import random
+from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+from django.core.cache import cache  # make sure this is imported
+
+@api_view(['POST'])
+def send_reset_otp(request):
+    email = request.data.get('email')
+    if not email:
+        return Response({'detail': 'Email is required'}, status=400)
+
+    users = User.objects.filter(email=email, is_active=True)  # ✅ Only allow verified users
+
+    if not users.exists():
+        return Response({'detail': 'User not found or not verified.'}, status=404)
+
+    if users.count() > 1:
+        return Response({'detail': 'Multiple verified users found with this email. Please contact support.'}, status=400)
+
+    user = users.first()
+    otp = str(random.randint(100000, 999999))
+
+    cache.set(f'reset_otp_{email}', otp, timeout=600)
+
+    send_mail(
+        'Your OTP Code',
+        f'Your OTP is: {otp}',
+        'noreply@harubayan.com',
+        [email]
+    )
+    return Response({'detail': 'OTP sent to email'})
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.core.cache import cache
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+@api_view(['POST'])
+def verify_reset_otp(request):
+    email = request.data.get('email')
+    otp = request.data.get('otp')
+    new_password = request.data.get('new_password')
+
+    # Step 1: Validate required fields
+    if not all([email, otp, new_password]):
+        return Response({'detail': 'Missing fields. Email, OTP, and new password are required.'}, status=400)
+
+    # Step 2: Validate OTP
+    saved_otp = cache.get(f'reset_otp_{email}')
+    if not saved_otp:
+        return Response({'detail': 'OTP expired or not found. Please request a new one.'}, status=400)
+
+    if saved_otp != otp:
+        return Response({'detail': 'Invalid OTP. Please check and try again.'}, status=400)
+
+    # Step 3: Find user
+    users = User.objects.filter(email=email)
+    if not users.exists():
+        return Response({'detail': 'User not found with this email.'}, status=404)
+    if users.count() > 1:
+        return Response({'detail': 'Multiple users found with this email. Please contact support.'}, status=400)
+
+    user = users.first()
+
+    # ✅ Step 3.5: Check if account is verified
+    if not user.is_active:
+        return Response({'detail': 'This account is not verified yet. Cannot reset password.'}, status=403)
+
+    # Step 4: Set the new password
+    user.set_password(new_password)
+    user.save()
+
+    # Step 5: Clean up the cache
+    cache.delete(f'reset_otp_{email}')
+
+    return Response({'detail': 'Password reset successful. You may now log in.'}, status=200)
+
+
 
 @csrf_exempt
 def contact_view(request):
