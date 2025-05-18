@@ -19,11 +19,6 @@ from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from django.contrib.auth.models import User
-import random
-from django.core.mail import send_mail
 
 
 
@@ -60,7 +55,9 @@ def send_reset_otp(request):
     except User.DoesNotExist:
         return Response({'detail': 'User with that username and email not found or not verified.'}, status=404)
 
+
 @api_view(['POST'])
+@csrf_exempt
 def verify_reset_otp(request):
     email = request.data.get('email', '').strip().lower()
     otp_input = request.data.get('otp', '').strip()
