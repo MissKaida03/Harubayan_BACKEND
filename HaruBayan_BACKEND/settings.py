@@ -62,7 +62,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://harubayan-backend.onrender.com"    # Para sa imong Live Server frontend (html direct open)
 ]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.3', '192.168.41.12','https://harubayan-backend.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.3', '192.168.41.12','harubayan-backend.onrender.com']
 
 # Allow tanan origins (for dev)
 CORS_ALLOW_ALL_ORIGINS = True
