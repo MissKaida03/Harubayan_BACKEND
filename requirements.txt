@@ -15,7 +15,7 @@ deprecation==2.1.0
 Django==5.2
 django-cors-headers==4.7.0
 djangorestframework==3.16.0
-djangorestframework_simplejwt==5.5.0
+djangorestframework_simplejwt>=5.0.0,<6.0.0
 djoser==2.3.1
 frozenlist==1.6.0
 gotrue==2.12.0
@@ -37,7 +37,7 @@ propcache==0.3.1
 pycparser==2.22
 pydantic==2.11.4
 pydantic_core==2.33.2
-PyJWT==2.10.1
+PyJWT>=2.0.0,<3.0.0
 pytest==8.3.5
 pytest-mock==3.14.0
 python-dateutil==2.9.0.post0
@@ -60,4 +60,4 @@ tzdata==2025.2
 urllib3==2.4.0
 websockets==14.2
 yarl==1.20.0
-gunicorn
+gunicorn==20.1.0
