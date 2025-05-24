@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7+ri7yh91be=t=8^bt8(6_xhf1ba*!=9*oko($1ec-)w-+h!%%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -59,9 +59,10 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5501",    # Para sa imong Live Server frontend (html direct open)
+    "https://harubayan-backend.onrender.com",
 ]
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.3']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.3', '192.168.41.12', 'https://harubayan-backend.onrender.com']
 
 # Allow tanan origins (for dev)
 CORS_ALLOW_ALL_ORIGINS = True
