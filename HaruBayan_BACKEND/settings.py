@@ -58,7 +58,8 @@ MIDDLEWARE = [
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:5501",    # Para sa imong Live Server frontend (html direct open)
+    "http://127.0.0.1:5501",
+    "https://harubayan-backend.onrender.com"    # Para sa imong Live Server frontend (html direct open)
 ]
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.1.3', '192.168.41.12','https://harubayan-backend.onrender.com']
