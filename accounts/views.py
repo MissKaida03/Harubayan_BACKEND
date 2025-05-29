@@ -153,7 +153,11 @@ def signup(request):
             user.save()
 
             try:
-                supabase.auth.sign_up({"email": email, "password": password})
+                supabase.auth.admin.create_user({
+                    "email": email,
+                    "password": password,
+                    "email_confirm": True
+                })
                 print("User registered in Supabase Auth")
             except Exception as e:
                 print("Supabase Auth signup failed:", str(e))
