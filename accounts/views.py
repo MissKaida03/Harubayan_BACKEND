@@ -152,7 +152,7 @@ def signup(request):
                 supabase.auth.admin.create_user({
                     "email": email,
                     "password": password,
-                    "email_confirm": True
+                    "email_confirmed": True
                 })
                 print("User registered in Supabase Auth")
             except Exception as e:
@@ -250,7 +250,7 @@ def login_view(request):
         "email": user.email,
         "password": password
     })
-                access_token = supabase_auth.get('session', {}).get('access_token')  # 🟢 FIXED: safer token access
+                access_token = auth_response.get('session', {}).get('access_token')  # 🟢 FIXED: safer token access
             except Exception as e:
                 access_token = None
                 print("Supabase Auth login failed:", str(e))
