@@ -19,8 +19,9 @@ from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.conf import settings
+from HaruBayan_BACKEND import settings as harubayan_settings  # or your exact settings module path
 
-
+supabase = harubayan_settings.supabase
 
 
 
