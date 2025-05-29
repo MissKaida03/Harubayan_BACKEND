@@ -154,15 +154,16 @@ import os
 from dotenv import load_dotenv
 from supabase import create_client
 
-load_dotenv()  # Load from .env file
+load_dotenv()
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
-if SUPABASE_URL and SUPABASE_KEY:
-    supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-else:
+if not SUPABASE_URL or not SUPABASE_KEY:
     raise Exception("Supabase URL or KEY not set in environment variables.")
+
+supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

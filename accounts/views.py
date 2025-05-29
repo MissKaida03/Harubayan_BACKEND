@@ -18,6 +18,9 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.conf import settings
+
+
 
 
 
@@ -115,11 +118,7 @@ def contact_view(request):
 
 
 # --- Supabase Setup ---
-from supabase import create_client
 
-SUPABASE_URL = "https://lngdoqimxolarajflobo.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuZ2RvcWlteG9sYXJhamZsb2JvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NDQyNDkwNCwiZXhwIjoyMDYwMDAwOTA0fQ.wX3liJEy4u2BXmD8n9yx_QjdCJO68gekl0gR2GBZf9s"
-supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 
 @csrf_exempt
