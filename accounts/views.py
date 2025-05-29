@@ -2,6 +2,7 @@ import json
 import random
 from django.core.cache import cache
 from django.core.mail import send_mail
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -9,9 +10,12 @@ from django.utils.crypto import get_random_string
 from django.utils import timezone
 from datetime import timedelta
 from .models import EmailOTP
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib import messages
+import random
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.conf import settings
@@ -149,11 +153,7 @@ def signup(request):
             user.save()
 
             try:
-                supabase.auth.admin.create_user({
-                    "email": email,
-                    "password": password,
-                    "email_confirmed": True
-                })
+                supabase.auth.sign_up({"email": email, "password": password})
                 print("User registered in Supabase Auth")
             except Exception as e:
                 print("Supabase Auth signup failed:", str(e))
@@ -246,11 +246,8 @@ def login_view(request):
             auth_login(request, user)
 
             try:
-                auth_response = supabase.auth.sign_in_with_password({
-        "email": user.email,
-        "password": password
-    })
-                access_token = auth_response.get('session', {}).get('access_token')  # 🟢 FIXED: safer token access
+                supabase_auth = supabase.auth.sign_in_with_password({"email": user.email, "password": password})
+                access_token = supabase_auth.get('session', {}).get('access_token')  # 🟢 FIXED: safer token access
             except Exception as e:
                 access_token = None
                 print("Supabase Auth login failed:", str(e))
